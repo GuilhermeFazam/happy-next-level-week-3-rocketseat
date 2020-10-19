@@ -18,14 +18,24 @@ interface Orphanege {
 }
 
 const OrphanagesMap: React.FC = () => {
+    const [positionDefault, setPositionDefault] = useState({
+        latitude: 0,
+        longitude: 0,
+    });
     const [orphaneges, setOrphaneges] = useState<Orphanege[]>([]);
 
     useEffect(() => {
         api.get('orphanages').then(response => {
             setOrphaneges(response.data);
         });
+
+        navigator.geolocation.getCurrentPosition(geolocation => {
+            setPositionDefault({
+                latitude: geolocation.coords.latitude,
+                longitude: geolocation.coords.longitude,
+            });
+        });
     }, []);
-    console.log(orphaneges);
     return (
         <div id="page-map">
             <aside>
@@ -44,7 +54,7 @@ const OrphanagesMap: React.FC = () => {
                 </footer>
             </aside>
             <Map
-                center={[-22.9196874, -47.1038653]}
+                center={[positionDefault.latitude, positionDefault.longitude]}
                 zoom={15}
                 style={{ width: '100%', height: '100%' }}
             >
