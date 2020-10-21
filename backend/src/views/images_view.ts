@@ -5,6 +5,7 @@ export default {
         return {
             id: image.id,
             url: `${process.env.DEV_PATH_UPLOAD_IMAGES}${image.path}`,
+            urlMobile: `${process.env.MOBILE_PATH_UPLOAD_IMAGES}${image.path}`,
         };
     },
 
